@@ -16,3 +16,9 @@ class AccountService:
     async def get_all_accounts(self) -> list[Account]:
         accounts = await self._accountRepository.get_all()
         return accounts
+
+    async def get_account_by_name(self, account_name: str) -> Account:
+        account = await self._accountRepository.get_by_name(account_name)
+        if not account:
+            raise AccountNotFoundError(account_name)
+        return account
