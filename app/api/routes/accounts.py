@@ -10,3 +10,5 @@ router = APIRouter(prefix="/accounts", tags=["Accounts"])
 @router.get("", response_model=List[AccountResponse])
 async def get_all_accounts(service: AccountService = Depends(get_account_service)):
     return await service.get_all_accounts()
+
+

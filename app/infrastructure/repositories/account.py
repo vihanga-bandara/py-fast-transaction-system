@@ -6,7 +6,6 @@ from app.application.interfaces.account_repo import IAccountRepository
 from app.domain.entities.account import Account as AccountDto
 from app.infrastructure.models.account import Account
 
-
 class AccountRepository(IAccountRepository):
     def __init__(self, session: AsyncSession):
         self._session = session
