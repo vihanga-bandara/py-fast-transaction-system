@@ -1,9 +1,12 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+import os
 
-DATABASE_URL = "sqlite+aiosqlite:///./transaction_system.db"
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from dotenv import load_dotenv
+
+load_dotenv()
 
 engine = create_async_engine(
-    DATABASE_URL,
+    os.getenv("DATABASE_URL"),
     echo=True
 )
 

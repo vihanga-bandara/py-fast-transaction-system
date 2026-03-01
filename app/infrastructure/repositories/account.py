@@ -6,7 +6,6 @@ from app.application.interfaces.account_repo import IAccountRepository
 from app.domain.entities.account import Account as AccountDto
 from app.infrastructure.models.account import Account
 
-
 class AccountRepository(IAccountRepository):
     def __init__(self, session: AsyncSession):
         self._session = session
@@ -28,3 +27,13 @@ class AccountRepository(IAccountRepository):
         db_accounts = result.scalars().all()
 
         return [AccountDto.model_validate(acc) for acc in db_accounts]
+
+    async def get_by_name(self, account_name: str) -> Optional[AccountDto]:
+        stmt = select(Account).where(Account.name == account_name)
+        result = await self._session.execute(stmt)
+        db_account = result.scalar_one_or_none()
+
+        if not db_account:
+            return None
+
+        return AccountDto.model_validate(db_account)
