@@ -1,6 +1,9 @@
+from datetime import datetime
+from time import timezone
+
 from sqlalchemy import DATETIME, ForeignKey, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.sql.sqltypes import Integer
+from sqlalchemy.sql.sqltypes import Integer, DateTime
 from app.infrastructure.models.base import Base
 
 
@@ -8,7 +11,7 @@ class Transaction(Base):
     __tablename__ = "Transaction"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("User.id"), nullable=False, index=True)
-    created_datetime: Mapped[str] = mapped_column(DATETIME, nullable=False)
+    created_datetime: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     account_id: Mapped[int] = mapped_column(ForeignKey("Account.id"), nullable=False, index=True)
 
     # orm relationship

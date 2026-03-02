@@ -1,9 +1,12 @@
 from typing import List, Optional
+
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.application.interfaces.account_repo import IAccountRepository
 from app.domain.entities.account import Account as AccountDto
+from app.domain.exceptions import AccountCreationError
 from app.infrastructure.models.account import Account
 
 class AccountRepository(IAccountRepository):
@@ -37,3 +40,17 @@ class AccountRepository(IAccountRepository):
             return None
 
         return AccountDto.model_validate(db_account)
+
+    async def create_account(self, account_name: str) -> AccountDto:
+
+        account = Account(name=account_name)
+        self._session.add(account)
+
+        try:
+            await self._session.commit()
+            await self._session.refresh(account)
+        except IntegrityError:
+            await self._session.rollback()
+            raise AccountCreationError("Database conflict occured")
+
+        return AccountDto.model_validate(account)

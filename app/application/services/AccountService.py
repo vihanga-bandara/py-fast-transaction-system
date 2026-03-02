@@ -1,3 +1,4 @@
+from app.api.schemas.account import AccountCreateRequest
 from app.application.interfaces.account_repo import IAccountRepository
 from app.domain.entities.account import Account
 from app.domain.exceptions import AccountNotFoundError
@@ -22,3 +23,6 @@ class AccountService:
         if not account:
             raise AccountNotFoundError(account_name)
         return account
+
+    async def create_account(self, account_name: str) -> Account:
+        return await self._accountRepository.create_account(account_name)
