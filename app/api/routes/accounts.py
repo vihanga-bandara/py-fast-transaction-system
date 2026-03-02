@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from app.api.dependencies import get_account_service
-from app.api.schemas.account import AccountResponse
+from app.api.schemas.account import AccountResponse, AccountCreateRequest
 from app.application.services.AccountService import AccountService
 
 router = APIRouter(prefix="/accounts", tags=["Accounts"])
@@ -18,3 +18,7 @@ async def get_account_by_id(account_id: int, service: AccountService = Depends(g
 @router.get("/name/{account_name}", response_model=AccountResponse)
 async def get_account_by_name(account_name: str, service: AccountService = Depends(get_account_service)):
     return await service.get_account_by_name(account_name)
+
+@router.post("", response_model=AccountResponse)
+async def create_account(request: AccountCreateRequest, service: AccountService = Depends(get_account_service)):
+    return await service.create_account(request.name)

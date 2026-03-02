@@ -5,3 +5,5 @@ class AccountResponse(BaseModel):
     name: str
     amount: int
 
+class AccountCreateRequest(BaseModel):
+    name: str
