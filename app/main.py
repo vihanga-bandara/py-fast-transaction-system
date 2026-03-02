@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from app.api.routes import accounts
+from app.api.routes import accounts, transactions
 from app.infrastructure.database import engine
 from app.infrastructure.models.base import Base
 from app.domain.exceptions import AccountNotFoundError
@@ -26,3 +26,4 @@ async def account_not_found_handler(request: Request, exc: AccountNotFoundError)
 
 # Register routers
 app.include_router(accounts.router)
+app.include_router(transactions.router)

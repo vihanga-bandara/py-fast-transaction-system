@@ -5,4 +5,4 @@ class Account(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: Optional[int] = None
     name: str
-    amount: int
+    balance: int

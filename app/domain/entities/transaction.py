@@ -9,3 +9,4 @@ class Transaction(BaseModel):
     user_id: int
     account_id: int
     created_datetime: datetime
+    amount: int
