@@ -42,15 +42,13 @@ class AccountRepository(IAccountRepository):
         return AccountDto.model_validate(db_account)
 
     async def create_account(self, account_name: str) -> AccountDto:
-
         account = Account(name=account_name)
-        self._session.add(account)
-
         try:
-            await self._session.commit()
-            await self._session.refresh(account)
-        except IntegrityError:
-            await self._session.rollback()
-            raise AccountCreationError("Database conflict occured")
+            async with self._session.begin():
+                self._session.add(account)
+                await self._session.flush()
+        except IntegrityError as e:
+            raise AccountCreationError("Database conflict occured") from e
 
+        await self._session.refresh(account)
         return AccountDto.model_validate(account)

@@ -1,9 +1,6 @@
 from datetime import datetime, timezone
-
-from sqlalchemy import DATETIME
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import Integer, String, DateTime
-
 from app.infrastructure.models.base import Base
 
 class User(Base):

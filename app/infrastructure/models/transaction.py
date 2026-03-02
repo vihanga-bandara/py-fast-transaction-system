@@ -1,11 +1,8 @@
-from datetime import datetime
-from time import timezone
-
-from sqlalchemy import DATETIME, ForeignKey, Index
+from datetime import datetime, timezone
+from sqlalchemy import ForeignKey, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import Integer, DateTime
 from app.infrastructure.models.base import Base
-
 
 class Transaction(Base):
     __tablename__ = "Transaction"
@@ -13,6 +10,7 @@ class Transaction(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("User.id"), nullable=False, index=True)
     created_datetime: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     account_id: Mapped[int] = mapped_column(ForeignKey("Account.id"), nullable=False, index=True)
+    amount: Mapped[int] = mapped_column(Integer, nullable=False)
 
     # orm relationship
     user: Mapped["User"] = relationship("User", back_populates="transactions")
