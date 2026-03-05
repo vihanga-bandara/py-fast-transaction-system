@@ -48,7 +48,7 @@ class AccountRepository(IAccountRepository):
                 self._session.add(account)
                 await self._session.flush()
         except IntegrityError as e:
-            raise AccountCreationError("Database conflict occured") from e
+            raise AccountCreationError("Database conflict occurred") from e
 
         await self._session.refresh(account)
         return AccountDto.model_validate(account)
