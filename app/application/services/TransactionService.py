@@ -7,7 +7,7 @@ from app.domain.entities.transaction import Transaction
 class TransactionService:
     def __init__(self, transaction_repository: ITransactionRepository, id_generator: SnowflakeGenerator):
         self._transaction_repository = transaction_repository
-        self._id_generator = id_generator(42)
+        self._id_generator = id_generator
 
     async def get_all_transactions(self):
         return await self._transaction_repository.get_all()

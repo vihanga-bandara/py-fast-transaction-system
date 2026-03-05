@@ -7,7 +7,6 @@ from app.infrastructure.database import engine
 from app.infrastructure.models.base import Base
 from app.domain.exceptions import AccountNotFoundError
 
-# Lifespan event to create the SQLite tables when the server starts
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
